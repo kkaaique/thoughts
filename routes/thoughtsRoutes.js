@@ -1,5 +1,4 @@
 const express = require('express')
-const Thought = require('../models/Thought')
 const router = express.Router()
 const ThoughtsController = require('../controllers/ThoughtsController')
 

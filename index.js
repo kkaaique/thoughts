@@ -14,6 +14,7 @@ const User = require('./models/User')
 
 // Import Routes
 const thoughtsRoutes = require('./routes/thoughtsRoutes')
+const authRoutes = require('./routes/authRoutes')
 
 // Import Controller
 const ThoughtsController = require('./controllers/ThoughtsController')
@@ -59,7 +60,7 @@ app.use(express.static('public'))
 
 // set sesssion to res 
 app.use((req, res, next) => {
-    if(req.session.userid) {
+    if(req.session.userId) {
         res.locals.session = req.session
     }
 
@@ -68,6 +69,7 @@ app.use((req, res, next) => {
 
 //Routes
 app.use('/thoughts', thoughtsRoutes)
+app.use('/', authRoutes)
 
 app.get('/', ThoughtsController.showThoughts)
 
