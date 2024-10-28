@@ -2,15 +2,28 @@ const { result } = require('lodash')
 const Thought = require('../models/Thought')
 const User = require('../models/User')
 
+const { Op } = require('sequelize')
+
 module.exports = class ThoughtsController {
     static async showThoughts(req, res) {
+        let search = ''
+
+        if(req.query.search) {
+            search = req.query.search
+        }
+
         const thoughtsData = await Thought.findAll({
             include: User,
+            where: {
+                title: {[Op.like]: `%${search}%`},
+            }
         })
 
         const thoughts = thoughtsData.map((result) => result.get({ plain: true }))
 
-        res.render('thoughts/home', { thoughts })
+        let thoughtsQty = thoughts.length
+
+        res.render('thoughts/home', { thoughts, search, thoughtsQty })
     }
 
     static async dashboard(req, res) {
